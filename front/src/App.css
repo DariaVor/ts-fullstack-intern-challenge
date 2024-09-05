@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .app-container {
+    min-height: 100vh;
+  }
+  
+  .navbar {
+    height: 64px;
+    background-color: #2294f2;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    padding-left: 60px; /* Space from the left to the first button */
+  }
+  
+  .nav-button {
+    height: 64px;
+    padding: 10px 20px; 
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0.02em;
+    text-align: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .nav-button:hover {
+    color: #fff;
+  }
+  
+  .nav-button.active {
+    background-color: #1e88e6; 
+    color: #fff;
+  }
+  
+  .main-content {
+    padding: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .navbar {
+      height: 56px; 
+      padding-left: 30px;
+    }
+  
+    .nav-button {
+      height: 56px;
+      font-size: 12px; 
+      padding: 8px 15px; 
+    }
+  
+    .nav-button.active {
+      height: 56px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .navbar {
+      height: 50px;
+      padding-left: 20px;
+    }
+  
+    .nav-button {
+      height: 50px;
+      font-size: 10px; 
+      padding: 6px 10px;
+    }
+  
+    .nav-button.active {
+      height: 50px;
+    }
+  }
+  
