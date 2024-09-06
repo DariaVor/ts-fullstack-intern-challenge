@@ -1,6 +1,5 @@
 * {
     margin: 0;
-    padding: 0;
     box-sizing: border-box;
   }
   
@@ -20,7 +19,7 @@
     align-items: center;
     padding: 0 20px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
-    padding-left: 60px; /* Space from the left to the first button */
+    padding-left: 60px;
   }
   
   .nav-button {
@@ -52,6 +51,18 @@
     padding: 20px;
   }
   
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 225px);
+    gap: 48px;
+    justify-content: center;
+    margin-top: 18px;
+  }  
+  
+  .card {
+    flex: 0 0 225px;
+  }
+
   @media (max-width: 768px) {
     .navbar {
       height: 56px; 
@@ -67,6 +78,10 @@
     .nav-button.active {
       height: 56px;
     }
+
+    .main-content {
+        padding: 10px;
+      }
   }
   
   @media (max-width: 480px) {
@@ -84,5 +99,9 @@
     .nav-button.active {
       height: 50px;
     }
+
+    .main-content {
+        padding: 8px;
+      }
   }
   

@@ -1,0 +1,51 @@
+.card {
+  position: relative;
+  width: 225px;
+  height: 225px;
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.heartButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.card:hover .heartButton {
+  opacity: 1;
+}
+
+.heartOutline {
+  color: #f24d1f;
+}
+
+.heartFilled {
+  color: #f24d1f;
+}
+
+.heartButton:hover .heartOutline {
+  display: none;
+}
+
+.heartButton:hover .heartFilled,
+.heartFilled.active {
+  display: block;
+}
