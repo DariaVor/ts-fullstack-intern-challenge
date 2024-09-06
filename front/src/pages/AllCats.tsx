@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import CatCard from '../components/CatCard';
+import React, { useEffect, useState } from "react";
+import CatCard from "../components/CatCard";
 // import { mockCats } from './mockData';
-import '../App.css';
+import "../App.css";
 
 interface Cat {
   id: string;
@@ -13,21 +13,21 @@ const AllCats: React.FC = () => {
   const [likedCats, setLikedCats] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch('https://api.thecatapi.com/v1/images/search?limit=20')
+    fetch("https://api.thecatapi.com/v1/images/search?limit=20")
       .then((res) => res.json())
       .then((data) => setCats(data))
       .catch((err) => console.error(err));
   }, []);
 
   const handleLike = (cat_id: string) => {
-    fetch('/api/cats/likes', {
-      method: 'POST',
+    fetch("/api/cats/likes", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ cat_id }),
     }).then(() => {
-      setLikedCats((prev) => [...prev, cat_id]);
+      setLikedCats([...likedCats, cat_id]);
     });
   };
 

@@ -15,7 +15,7 @@ const CatCard: React.FC<CatCardProps> = ({ id, url, isLiked, onLike }) => {
       <div className={styles.card}>
         <img
           src={url}
-          alt="Cat"
+          alt="Котик"
           className="w-full h-full rounded-lg"
         />
         <button

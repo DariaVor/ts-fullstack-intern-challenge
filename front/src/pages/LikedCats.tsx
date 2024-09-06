@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import CatCard from '../components/CatCard';
-import '../App.css'; 
+import React, { useEffect, useState } from "react";
+import CatCard from "../components/CatCard";
+import "../App.css";
 
 interface LikedCat {
   cat_id: string;
@@ -10,7 +10,7 @@ const LikedCats: React.FC = () => {
   const [likedCats, setLikedCats] = useState<LikedCat[]>([]);
 
   useEffect(() => {
-    fetch('/api/cats/likes')
+    fetch("/api/cats/likes")
       .then((res) => res.json())
       .then((data) => setLikedCats(data))
       .catch((err) => console.error(err));
