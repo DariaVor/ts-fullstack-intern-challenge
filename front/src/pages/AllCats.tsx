@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CatCard from "../components/CatCard";
-// import { mockCats } from './mockData';
+// import { mockCats } from "./mockData";
 import "../App.css";
 
 interface Cat {
@@ -19,33 +19,29 @@ const AllCats: React.FC = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleLike = (cat_id: string) => {
-    fetch("/api/cats/likes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ cat_id }),
-    }).then(() => {
-      setLikedCats([...likedCats, cat_id]);
-    });
-  };
-
   // useEffect(() => {
   //   setCats(mockCats);
   // }, []);
 
-  // const handleLike = (cat_id: string) => {
-  //   fetch('/api/cats/likes', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ cat_id }),
-  //   }).then(() => {
-  //     setLikedCats((prev) => [...prev, cat_id]);
-  //   });
-  // };
+  const handleLike = (cat_id: string) => {
+    if (likedCats.includes(cat_id)) {
+      fetch(`/api/cats/likes/${cat_id}`, {
+        method: "DELETE",
+      }).then(() => {
+        setLikedCats(likedCats.filter((id) => id !== cat_id));
+      });
+    } else {
+      fetch("/api/cats/likes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cat_id }),
+      }).then(() => {
+        setLikedCats([...likedCats, cat_id]);
+      });
+    }
+  };
 
   return (
     <div className="grid-container">

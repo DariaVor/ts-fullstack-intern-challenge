@@ -1,32 +1,48 @@
-import React, { useState } from 'react';
-import AllCats from './pages/AllCats';
-import LikedCats from './pages/LikedCats';
-import './App.css'; // Import the CSS file
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  NavLink,
+} from "react-router-dom";
+import AllCats from "./pages/AllCats";
+import LikedCats from "./pages/LikedCats";
+import ErrorPage from "./pages/ErrorPage";
+import "./App.css";
 
 const App: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState<'all' | 'liked'>('all');
-
   return (
-    <div className="app-container">
-      <nav className="navbar">
-        <button
-          className={`nav-button ${currentTab === 'all' ? 'active' : ''}`}
-          onClick={() => setCurrentTab('all')}
-        >
-          Все котики
-        </button>
-        <button
-          className={`nav-button ${currentTab === 'liked' ? 'active' : ''}`}
-          onClick={() => setCurrentTab('liked')}
-        >
-          Любимые котики
-        </button>
-      </nav>
+    <Router>
+      <div className="app-container">
+        <nav className="navbar">
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `nav-button ${isActive ? "active" : ""}`
+            }
+          >
+            Все котики
+          </NavLink>
+          <NavLink
+            to="/likes"
+            className={({ isActive }) =>
+              `nav-button ${isActive ? "active" : ""}`
+            }
+          >
+            Любимые котики
+          </NavLink>
+        </nav>
 
-      <main className="main-content">
-        {currentTab === 'all' ? <AllCats /> : <LikedCats />}
-      </main>
-    </div>
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<AllCats />} />
+            <Route path="/likes" element={<LikedCats />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 };
 
