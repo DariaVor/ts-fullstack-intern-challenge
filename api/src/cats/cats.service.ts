@@ -11,8 +11,7 @@ export class CatsService {
   ) {}
 
   async getAllLikes(page: number = 1, limit: number = 15): Promise<CatLike[]> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [result, total] = await this.catLikeRepository.findAndCount({
+    const [result] = await this.catLikeRepository.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
     });
