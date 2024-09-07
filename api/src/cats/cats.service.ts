@@ -10,8 +10,13 @@ export class CatsService {
     private catLikeRepository: Repository<CatLike>,
   ) {}
 
-  async getAllLikes(): Promise<CatLike[]> {
-    return this.catLikeRepository.find();
+  async getAllLikes(page: number = 1, limit: number = 15): Promise<CatLike[]> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [result, total] = await this.catLikeRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    return result;
   }
 
   async addLike(cat_id: string): Promise<CatLike> {

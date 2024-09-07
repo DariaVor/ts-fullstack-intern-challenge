@@ -15,30 +15,39 @@ const CatContainer: React.FC<{ isLikedPage?: boolean }> = ({ isLikedPage }) => {
   const [cats, setCats] = useState<Cat[]>([]);
   const [likedCats, setLikedCats] = useState<LikedCat[]>([]);
   const [likedCatIds, setLikedCatIds] = useState<string[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isLikedPage) {
-      fetch("/api/cats/likes")
-        .then((res) => res.json())
-        .then((data) => {
+    const fetchCats = async () => {
+      setLoading(true);
+      try {
+        const url = isLikedPage
+          ? `/api/cats/likes?page=${page}`
+          : `https://api.thecatapi.com/v1/images/search?limit=20&api_key=live_zpwZZX1KcPVHikhEFkxYV4lOKi2NTPqkI3YKkMBOy1zXZnPIxvuMVLO4q0WwgzP1&page=${page}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (isLikedPage) {
           setLikedCats(data);
           setLikedCatIds(data.map((cat: LikedCat) => cat.cat_id));
-        })
-        .catch((err) => console.error(err));
-    } else {
-      fetch(
-        "https://api.thecatapi.com/v1/images/search?limit=15&api_key=live_zpwZZX1KcPVHikhEFkxYV4lOKi2NTPqkI3YKkMBOy1zXZnPIxvuMVLO4q0WwgzP1"
-      )
-        .then((res) => res.json())
-        .then((data) => {
+        } else {
           const filteredCats = data.filter(
             (cat: Cat) => cat.url.endsWith(".jpg") || cat.url.endsWith(".png")
           );
-          setCats(filteredCats);
-        })
-        .catch((err) => console.error(err));
-    }
-  }, [isLikedPage]);
+          setCats((prev) => [...prev, ...filteredCats.slice(0, 15)]);
+          setHasMore(filteredCats.length > 15);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCats();
+  }, [isLikedPage, page]);
 
   const handleLike = (cat_id: string) => {
     if (likedCatIds.includes(cat_id)) {
@@ -67,27 +76,45 @@ const CatContainer: React.FC<{ isLikedPage?: boolean }> = ({ isLikedPage }) => {
   };
 
   return (
-    <div className="grid-container">
-      {(isLikedPage ? likedCats : cats).map((cat) => {
-        const isLikedCat = "cat_id" in cat;
-        return (
-          <CatCard
-            key={isLikedCat ? (cat as LikedCat).cat_id : (cat as Cat).id}
-            id={isLikedCat ? (cat as LikedCat).cat_id : (cat as Cat).id}
-            url={
-              isLikedCat
-                ? `https://cdn2.thecatapi.com/images/${
-                    (cat as LikedCat).cat_id
-                  }.jpg`
-                : (cat as Cat).url
-            }
-            isLiked={likedCatIds.includes(
-              isLikedCat ? (cat as LikedCat).cat_id : (cat as Cat).id
-            )}
-            onLike={handleLike}
-          />
-        );
-      })}
+    <div className="app-container">
+      <div className="grid-container">
+        {(isLikedPage ? likedCats : cats).map((cat) => {
+          const isLikedCat = "cat_id" in cat;
+          return (
+            <CatCard
+              key={isLikedCat ? (cat as LikedCat).cat_id : (cat as Cat).id}
+              id={isLikedCat ? (cat as LikedCat).cat_id : (cat as Cat).id}
+              url={
+                isLikedCat
+                  ? `https://cdn2.thecatapi.com/images/${
+                      (cat as LikedCat).cat_id
+                    }.jpg`
+                  : (cat as Cat).url
+              }
+              isLiked={likedCatIds.includes(
+                isLikedCat ? (cat as LikedCat).cat_id : (cat as Cat).id
+              )}
+              onLike={handleLike}
+            />
+          );
+        })}
+      </div>
+      <div className="pagination-container">
+        {loading && !isLikedPage && (
+          <div className="loader">... загружаем котиков ...</div>
+        )}
+        {!loading && hasMore && !isLikedPage && (
+          <button
+            className="load-more"
+            onClick={() => {
+              setPage((prevPage) => prevPage + 1);
+              setLoading(true);
+            }}
+          >
+            Загрузить еще котиков
+          </button>
+        )}
+      </div>
     </div>
   );
 };

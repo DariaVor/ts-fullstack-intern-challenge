@@ -102,6 +102,36 @@ body {
   background-color: #1e88e6;
 }
 
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.loader {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.load-more {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  background: #2294f2;
+  border: none;
+  padding: 20px;
+  border-radius: 50px;
+  color: #ffffff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.load-more:hover {
+  background: #1e88e6;
+}
+
 @media (max-width: 768px) {
   .navbar {
     height: 56px;
